@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34723.18
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InTerm", "InTerm\InTerm.csproj", "{E251E6CE-07D8-4363-9319-DEDA3250BA73}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E251E6CE-07D8-4363-9319-DEDA3250BA73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E251E6CE-07D8-4363-9319-DEDA3250BA73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E251E6CE-07D8-4363-9319-DEDA3250BA73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E251E6CE-07D8-4363-9319-DEDA3250BA73}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AD87C120-8290-43AC-BFD7-B7D950DCEE67}
+	EndGlobalSection
+EndGlobal

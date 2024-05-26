@@ -1,0 +1,70 @@
+﻿<Window x:Class="InTerm.Views.DataForwardingSettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:InTerm.Views"
+        xmlns:vm="clr-namespace:InTerm.ViewModels"
+        mc:Ignorable="d"
+        Title="Data forwarding" 
+        SizeToContent="WidthAndHeight"
+        d:DataContext="{d:DesignInstance Type=vm:DataForwardingSettingsViewModel}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0"
+                   Width="250"
+                   LastChildFill="True">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Margin="5"
+                           Text="File path"/>
+                <DockPanel>
+                    <Button DockPanel.Dock="Right" 
+                            Margin="5" 
+                            Width="30"
+                            VerticalAlignment="Top"
+                            Content="..."
+                            Command="{Binding BrowseCommand}"/>
+                    <TextBox Margin="5"
+                             IsReadOnly="True"
+                             TextWrapping="Wrap"
+                             MaxLines="5"
+                             Text="{Binding FilePath}"/>
+                </DockPanel>
+                <CheckBox Margin="5"
+                          Content="Append Data"
+                          IsChecked="{Binding AppendData}"/>                
+                <CheckBox Margin="5"
+                          Content="Hex Data"
+                          IsChecked="{Binding HexData}"/>
+                <CheckBox Margin="5"
+                          Content="Timestamps"
+                          IsChecked="{Binding Timestamps}"/>
+                <CheckBox Margin="5"
+                          Content="Local echo"
+                          IsChecked="{Binding LocalEcho}"/>
+                <CheckBox Margin="5"
+                          Content="System events"
+                          IsChecked="{Binding SystemEvents}"/>
+            </StackPanel>
+        </DockPanel>
+        <DockPanel Grid.Row="1"
+                   LastChildFill="False">
+            <Button DockPanel.Dock="Right" 
+                    Width="100"
+                    Margin="5"
+                    Content="Cancel"
+                    Command="{Binding CancelCommand}"/>
+            <Button DockPanel.Dock="Right" 
+                    Width="100"
+                    Margin="5"
+                    Content="Apply"
+                    Command="{Binding ApplyCommand}"/>
+        </DockPanel>
+    </Grid>
+</Window>

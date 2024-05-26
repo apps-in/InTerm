@@ -1,0 +1,208 @@
+﻿<UserControl x:Class="InTerm.Views.TerminalView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:InTerm.Views"
+             xmlns:vm="clr-namespace:InTerm.ViewModels"
+             xmlns:conv="clr-namespace:InTerm.Views.Converters"
+             mc:Ignorable="d" 
+             MinWidth="650"
+             d:DesignHeight="450" d:DesignWidth="650"
+             d:DataContext="{d:DesignInstance Type=vm:TerminalViewModel, IsDesignTimeCreatable=True}">
+    <UserControl.Resources>
+        <conv:BooleanToVisibilityConverter True="Visible" False="Collapsed" x:Key="BooleanToVisibility"/>
+        <conv:BooleanToVisibilityConverter True="Collapsed" False="Visible" x:Key="ReverseBooleanToVisibility"/>
+        <conv:BooleanToGridSizeConverter x:Key="HexPanelGridSize"/>
+        <conv:TailDataConverter x:Key="TailData"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="193*"/>
+            <ColumnDefinition Width="7*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0"
+                   Grid.ColumnSpan="2"
+                   LastChildFill="True">
+            <Border DockPanel.Dock="Bottom"
+                    Margin="0 5"
+                    BorderThickness="0.5"
+                    BorderBrush="Gray"/>
+            <Button DockPanel.Dock="Left"
+                    Width="150"
+                    Margin="5"
+                    Content="{Binding ConnectDisconnectButtonText}"
+                    Command="{Binding ConnectDisconnectCommand}"/>
+            <Button DockPanel.Dock="Right"
+                    Width="150"
+                    Margin="5"
+                    Content="Settings"
+                    Command="{Binding ShowSettingsCommand}"/>
+            <TextBlock Margin="5"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       FontWeight="Bold"
+                       Text="{Binding ConnectionStateText}"/>
+        </DockPanel>
+        <DockPanel Grid.Row="1"
+                   Grid.ColumnSpan="2"
+                   LastChildFill="False">
+            <DockPanel DockPanel.Dock="Top"
+                       LastChildFill="True">
+                <Border DockPanel.Dock="Bottom"
+                        Margin="0 5"
+                        BorderThickness="0.5"
+                        BorderBrush="Gray"/>
+                <TextBlock DockPanel.Dock="Top" 
+                           Margin="5"
+                           Text="Data forwarding"/>
+                <Button DockPanel.Dock="Right"
+                        Width="120"
+                        Margin="5"
+                        Content="Forward to file"
+                        Visibility="{Binding DataForwarding.IsStarted, Converter={StaticResource ReverseBooleanToVisibility}}"
+                        Command="{Binding SetupForwardingCommand}"/>
+                <Button DockPanel.Dock="Right"
+                        Width="120"
+                        Margin="5"
+                        Content="Stop forwarding"
+                        Visibility="{Binding DataForwarding.IsStarted, Converter={StaticResource BooleanToVisibility}}"
+                        Command="{Binding StopForwardingCommand}"/>
+                <TextBlock Margin="5"
+                           Text="{Binding DataForwarding.Message}"/>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top"
+                       LastChildFill="False">
+                <CheckBox DockPanel.Dock="Left"
+                          Margin="5"
+                          Content="Auto scroll"
+                          IsChecked="{Binding AutoScroll}"/>
+                <CheckBox DockPanel.Dock="Left"
+                          Margin="5"
+                          Content="Show Hex Data"
+                          IsChecked="{Binding ShowHexData}"/>
+                <CheckBox DockPanel.Dock="Left"
+                          Margin="5"
+                          Content="Show Timestamps"
+                          IsChecked="{Binding ShowTimestamps}"/>
+                <CheckBox DockPanel.Dock="Left"
+                          Margin="5"
+                          Content="Local echo"
+                          IsChecked="{Binding LocalEcho}"/>
+                <CheckBox DockPanel.Dock="Left"
+                          Margin="5"
+                          Content="System events"
+                          IsChecked="{Binding SystemEvents}"/>
+                <Button DockPanel.Dock="Right"
+                        Width="120"
+                        Margin="5"
+                        Content="Clear"
+                        Command="{Binding ClearCommand}"/>
+            </DockPanel>
+        </DockPanel>
+        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="{Binding ShowHexData, Converter={StaticResource HexPanelGridSize}}"/>
+            </Grid.ColumnDefinitions>
+            <DockPanel Grid.Column="0" 
+                       LastChildFill="True">
+                <TextBlock DockPanel.Dock="Top" 
+                           Margin="5"
+                           Text="ASCII"/>
+                <DockPanel DockPanel.Dock="Bottom"
+                           LastChildFill="False">
+                    <Button DockPanel.Dock="Left"
+                            Width="120"
+                            Margin="5"
+                            Content="Copy to clipboard"
+                            Command="{Binding CopyTextCommand}"/>
+                    <Button DockPanel.Dock="Left"
+                            Width="120"
+                            Margin="5"
+                            Content="Save to file"
+                            Command="{Binding SaveTextCommand}"/>
+                </DockPanel>
+                <RichTextBox x:Name="TextDataTextBox" 
+                             Margin="5"
+                             Block.LineHeight="1"
+                             IsReadOnly="True"/>
+            </DockPanel>
+            <DockPanel Grid.Column="1" 
+                       LastChildFill="True"
+                       Visibility="{Binding ShowHexData, Converter={StaticResource BooleanToVisibility}}">
+                <TextBlock DockPanel.Dock="Top" 
+                           Margin="5"
+                           Text="Hex"/>
+                <DockPanel DockPanel.Dock="Bottom"
+                           LastChildFill="False">
+                    <Button DockPanel.Dock="Left"
+                            Width="120"
+                            Margin="5"
+                            Content="Copy to clipboard"
+                            Command="{Binding CopyHexCommand}"/>
+                    <Button DockPanel.Dock="Left"
+                            Width="120"
+                            Margin="5"
+                            Content="Save to file"
+                            Command="{Binding SaveHexCommand}"/>
+                </DockPanel>
+                <RichTextBox x:Name="HexDataTextBox" 
+                             Margin="5"
+                             Block.LineHeight="1"
+                             IsReadOnly="True"/>
+            </DockPanel>
+        </Grid>
+        <DockPanel Grid.Row="3"
+                   Grid.ColumnSpan="2"
+                   LastChildFill="True">
+            <Border DockPanel.Dock="Top"
+                    Margin="0 5"
+                    BorderThickness="0.5"
+                    BorderBrush="Gray"/>
+            <DockPanel
+                DockPanel.Dock="Top"
+                LastChildFill="False">
+                <StackPanel
+                    Orientation="Vertical"
+                    Margin="5">
+                    <TextBlock
+                        Text="Auto append"/>
+                    <ComboBox           
+                        Margin="0 5 0 0"
+                        ItemsSource="{Binding AppendDataOptions}"
+                        SelectedItem="{Binding AppendData}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Converter={StaticResource TailData}}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+            </DockPanel>
+            <Button DockPanel.Dock="Right"
+                    Width="150"
+                    Margin="5"
+                    Content="Send"
+                    Command="{Binding SendDataCommand}"/>
+            <TextBlock DockPanel.Dock="Right" 
+                       Width="20"
+                       Margin="5"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       Text="{Binding DataAppendText}"/>
+            <TextBox Name="DataInput" 
+                     Margin="5"
+                     VerticalAlignment="Center"
+                     Text="{Binding DataInput, UpdateSourceTrigger=PropertyChanged}"
+                     KeyDown="DataInput_KeyDown"
+                     PreviewKeyDown="DataInput_PreviewKeyDown"/>
+        </DockPanel>
+    </Grid>
+</UserControl>
