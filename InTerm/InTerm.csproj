@@ -27,11 +27,19 @@
       $(PostBuildEventDependsOn);
       PostBuildMacros;
     </PostBuildEventDependsOn>
-    <PostBuildEvent>
+    <PostBuildEvent>echo Preparing distribution package 
+xcopy "$(TargetDir)*.*" "$(SolutionDir)build\$(AssemblyName)\$(configuration)\bin" /E /I /Q 
+del "$(SolutionDir)build\$(AssemblyName)\$(configuration)\bin\*.xml", "$(SolutionDir)build\$(AssemblyName)\$(configuration)\bin\*.pdb", "$(SolutionDir)build\$(AssemblyName)\$(configuration)\bin\interm.cfg", "$(SolutionDir)build\$(AssemblyName)\$(configuration)\bin\interm.his", "$(SolutionDir)build\$(AssemblyName)\$(configuration)\bin\*.log"  
+7z a -r "$(SolutionDir)build\$(AssemblyName)\$(configuration)\$(AssemblyName).zip" "$(SolutionDir)build\$(AssemblyName)\$(configuration)\bin\*" 
+echo Starting 
+exit /b 0
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="echo Removing previous distribution package &#xD;&#xA;if exist &quot;$(SolutionDir)build\$(AssemblyName)\$(configuration)&quot; (&#xD;&#xA;rmdir /s /q &quot;$(SolutionDir)build\$(AssemblyName)\$(configuration)&quot;&#xD;&#xA;)&#xD;&#xA;exit /b 0" />
+  </Target>
 
 </Project>
